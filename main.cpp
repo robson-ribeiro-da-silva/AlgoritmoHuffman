@@ -21,6 +21,9 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
+    //Core core;                      //cria objeto do tipo core
+    //core.iniciar("arquivo2.txt");
+    
     cout<<" ----- ALGORITMO DE HUFFMAN ------- "<<endl;
     cout<<" Compactação de Arquivo de Texto "<<endl;
     Core core;                      //cria objeto do tipo core
@@ -75,7 +78,7 @@ int main(int argc, char** argv) {
                 cout<<"\n Opção inválida! \n"<<endl;
         }
     }
-    cout<<endl;
+    cout<<endl; 
     return 0;
 }
 
