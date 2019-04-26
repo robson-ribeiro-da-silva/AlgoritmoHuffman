@@ -53,7 +53,7 @@ void Core::iniciar(string arquivo) {  //funçao inicial, recebe o arquivo
     int t = saida.length()-1;
     char *s = new char[t];   //vetor de char
     memcpy(s, saida.c_str(), saida.length()-1);    //converte a string em vetor de char
-   
+    
     for(int j=0; j<=tAscii; j++){  //apenas pra limpar o vetor do NoFreq
         nofreq[j].SetChave(0);
         nofreq[j].SetPosicao(0);
@@ -65,19 +65,22 @@ void Core::iniciar(string arquivo) {  //funçao inicial, recebe o arquivo
         j =(int) s[i];            //pega o valor decimal do caracter 
        if(nofreq[j].GetChave() == s[i]){ 
             nofreq[j].SetFrequencia(nofreq[j].GetFrequencia() + 1); //se ja estiver no vetor incrementa a frequencia
-        }else{
+       }else{
             nofreq[j].SetChave(s[i]);  //insere o caracter no vetor NoFreq
             nofreq[j].SetPosicao(j);
             nofreq[j].SetFrequencia(1);
         }
     }
-    
+    int soma = 0;
+    //cout <<"\n\n Tamanho: "<<x<<endl;
     cout << "\n LISTA DE FREQUÊNCIA: " <<endl;  //imprimi o vetor de NoFreq
     for(int i=0; i<=tAscii; i++){
         if(nofreq[i].GetChave() != 0 ){
             cout <<" Chave: " << nofreq[i].GetChave() <<" Frequência: " 
                     << nofreq[i].GetFrequencia() << " Posição: "
                     <<nofreq[i].GetPosicao()<<endl; 
+            
+            soma += nofreq[i].GetFrequencia();   //soma recebe a frequencia de todos caracteres, ou seja, conta quantos caracteres contem no texto
             
             NoArvore *nArvore = new NoArvore(nofreq[i].GetFrequencia(), nofreq[i].GetChave()); //cria o NoArvore
            
@@ -86,7 +89,7 @@ void Core::iniciar(string arquivo) {  //funçao inicial, recebe o arquivo
             lista->inserirNovo(nLista);  //insere o nó na lista
         }
     }
-    
+    cout <<"\n\n Tamanho: "<<soma<<endl;
     cout <<"\n LISTA ORDENADA: "<<endl;
     lista->imprimir();      //imprimi a lista ordenada
     
@@ -96,12 +99,15 @@ void Core::iniciar(string arquivo) {  //funçao inicial, recebe o arquivo
     arv->preOrdem(arv->GetRaiz());      //imprimi em pré-ordem
     arv->gerarTabela(arv->GetRaiz(), ""); //funçao de gerar a tabela
     
-    cout <<"\n TABELA: "<<endl;
+    cout <<"\n\n TABELA: "<<endl;
     arv->imprimirTabela();             //imprimi a tabela de binario
     
-    cout <<"\n COMPACTACAO: "<<endl;
+    cout <<"\n COMPACTAÇÃO: "<<endl;
     arv->compactador(s, t);             //compacta apartir do vetor de char e seu tamanho
-    arv->liberarMemoria(arv->GetRaiz());  //libera a memoria
+    
+    cout <<"\n\n PERCENTUAL DE COMPACTAÇÃO:  "<<endl;
+    arv->percentualCompactacao(soma);
+    arv->liberarMemoria(arv->GetRaiz());  //libera a memoria, desaloca a arvore
    // arv->imprimirListaBinario();
 }
 

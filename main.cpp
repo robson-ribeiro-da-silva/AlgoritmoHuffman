@@ -22,20 +22,17 @@ using namespace std;
 int main(int argc, char** argv) {
     
     //Core core;                      //cria objeto do tipo core
-    //core.iniciar("arquivo2.txt");
+    //core.iniciar("arquivo1.txt");
     
     cout<<" ----- ALGORITMO DE HUFFMAN ------- "<<endl;
     cout<<" Compactação de Arquivo de Texto "<<endl;
+    
     Core core;                      //cria objeto do tipo core
-    //core.iniciar("arquivo2.txt");   //chama a função de inciar que recebe o arquivo
-    //arquivo1.txt - texto pequeno
-    //arquivo2.txt - texto medio
-    //arquivo3.txt - texto grande
+    
    
     int opcao = 0;
     bool op = true;
-    //Core core;
-    //core.iniciar("arquivo3.txt");
+    
     
     cout<<endl;
     while(op){

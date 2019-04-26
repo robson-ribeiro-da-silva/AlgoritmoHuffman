@@ -26,6 +26,7 @@
 
 using namespace std;
 
+int somaBinario = 0;
 int tNoBin = 257;  //tamanho da tabela ascii
 NoBinario *nobinario = new NoBinario[257];     //No do tipo NoBinario declarado como variavel global, recebera o caracter e seu binario
 
@@ -112,6 +113,7 @@ void Arvore::gerarTabela2(NoArvore* no, string s) {   //funçao recursiva para g
             nobinario[GetI()].SetChave(no->GetChave());
             nobinario[GetI()].SetBinario(s);
             SetI(GetI()+1);           //incremeta a variavel de controle que percorre o vetor
+            somaBinario += s.size();        //soma binario concatena o tamanho de cada binario, ao final, tem o tamanho total de todos binario
         }
         gerarTabela(no->GetEsquerdo(),  s+'0');       //chamada recursivamente ate a folha. se for para esquerda concatena 0
         gerarTabela(no->GetDireito(),  s+'1');        //para a direita concatena 1 na string
@@ -127,7 +129,9 @@ void Arvore::gerarTabela(NoArvore* no, string s) {   //funçao recursiva para ge
             int j =(int) chave;             //j recebe o valor decimal da chave correspondente a tabela ascii
             nobinario[j].SetChave(chave);   //seta a chave na posiçao do valor decimal
             nobinario[j].SetBinario(s);     //junto com o caminho binario
-                       
+            //cout <<"\n t: "<<s.size()<<" ";  
+           // somaBinario += s.size();        //soma binario concatena o tamanho de cada binario, ao final, tem o tamanho total de todos binario
+           // cout <<"\n t: "<<somaBinario<<" ";
         }
         gerarTabela(no->GetEsquerdo(),  s+'0');       //chamada recursivamente ate a folha. se for para esquerda concatena 0
         gerarTabela(no->GetDireito(),  s+'1');        //para a direita concatena 1 na string
@@ -166,12 +170,11 @@ void Arvore::imprimirTabela() {  //imrpime a tabela e escreve no arquivo
         escrita << "Binario : Caracter" <<endl;
 
         int i;
-        for(i = 0; i<tNoBin; i++){  //percorre todo o vetor NoBinario até onde tem elementos
+        for(i = 0; i<tNoBin; i++){  //percorre todo o vetor NoBinario 
             if(nobinario[i].GetChave() != 0){      //caso alguma chave igual a 0, nao faz     
             
                 cout<<" |"<<nobinario[i].GetChave() <<"\t "<<nobinario[i].GetBinario()<<"|"<<endl;  //vai imprimindo o vetor a cada incremento
                 escrita << " |"+nobinario[i].GetBinario()+" :\t\t "+nobinario[i].GetChave()+"|" <<endl;  //vai escrevendo o vetor no arquivo a cada incremento
-        
             }
         }
         escrita.close();
@@ -206,6 +209,8 @@ void Arvore::compactador2(char lista[], int t) {  //recebe o vetor de char e seu
 
 
 void Arvore::compactador(char lista[], int t) {  //recebe o vetor de char e seu tamanho, o que resultou apartir do texto lido do arquivo
+    
+    string sbinario;
     int x = 0;
     ofstream escrita;
     escrita.open("compressao.txt", ios::out);
@@ -219,11 +224,32 @@ void Arvore::compactador(char lista[], int t) {  //recebe o vetor de char e seu 
            //     cout<<lista[i]<<" "<< x <<" ";
                 cout<< nobinario[x].GetBinario()<<" ";  //imprimi o binario correspondente a cada caracter da lista.
                 escrita << nobinario[x].GetBinario()+" "; //e escreve no arquivo, gerando a codificação do texto lido
+                
+                sbinario = nobinario[x].GetBinario();  //string recebe a string do vetor nobinario para contar o tamanho, ou seja a quantidade de bits
+                somaBinario += sbinario.size();        //soma binario concatena o tamanho de cada binario, ao final, tem o tamanho total de todos binarios
+                
             }
         }
         escrita.close();  
     }
 }
+
+void Arvore::percentualCompactacao(int tamanho) {  //funçao que calcula o percentual obtido com huffman em diferença a ascii  
+    
+    float totalBits = tamanho * 8;  //mutiplica tamanho por 8, correspondende a quantidade de bits
+    
+    cout<<" Tamanho do texto em Bits representado por ASCII: "<<totalBits<<endl;
+    cout<<" Tamanho do texto em Bits representado por Huffman: "<<somaBinario<<endl;
+    
+    float diferenca = totalBits - somaBinario;
+    
+    float porcentagem = somaBinario*100/totalBits;  //aplica-se regra de tres
+    float porcentagemD = diferenca*100/totalBits;   //aplica-se regra de tres
+    
+    cout<<" O tamanho com Huffman representa apenas: "<<porcentagem<<"%"<<endl;
+    cout<<" A diferença da porcentagem obtida foi de: "<<porcentagemD<<"%"<<endl;
+}
+
 
 void Arvore::liberarMemoria(NoArvore* no) {  //funçao com chamadas recursivas para limpar a memoria que a arvore utilizou
     
@@ -245,6 +271,7 @@ void Arvore::imprimirListaBinario() {  //imprimi o conteudo do vetor de NoBinari
         }
     }
 }
+
 
 
 

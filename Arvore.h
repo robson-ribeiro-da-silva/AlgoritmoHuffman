@@ -52,6 +52,7 @@ public:
     void imprimirTabela2();      //imprimi a tabela com o caracter e o binario correspondente, escreve no arquivo
     void compactador2(char lista[], int t);   //gera a sequencia de binarios correspondente ao texto
     
+    void percentualCompactacao(int tamanho);  //funçao que calcula o percentual 
     
     void preOrdem(NoArvore *no);  //percurso pre-ordem apartir da raiz
     void imprimirListaBinario();   //imprimi o vetor do tipo NoBinario

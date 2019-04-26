@@ -47,7 +47,7 @@ string Arquivo::carregarArquivo(string arquivo) {   //abre o arquivo e extrai o 
         }
 
         string s = saida.str();
-
+        
         leitura.close();
     }
     return saida.str();
